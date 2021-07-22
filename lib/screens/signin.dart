@@ -87,6 +87,9 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      validator: (val) => (val == null || val.length < 6)
+                          ? "Password must be 6 char or more"
+                          : null,
                       obscureText: true,
                       decoration: InputDecoration(hintText: "Password"),
                       onChanged: (val) {

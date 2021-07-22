@@ -40,11 +40,14 @@ class _RegisterFormState extends State<RegisterForm> {
   String password = '';
   String confirmPassword = '';
 
+  final _keyForm = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Form(
+          key: _keyForm,
           child: Column(
             children: [
               Row(
@@ -56,6 +59,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
+                      validator: (val) => (val == null || val.isEmpty)
+                          ? "Input your name"
+                          : null,
                       decoration: InputDecoration(hintText: "Name"),
                       onChanged: (val) {
                         name = val;
@@ -74,6 +80,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
+                      validator: (val) => (val == null || val.isEmpty)
+                          ? "Input your username"
+                          : null,
                       decoration: InputDecoration(hintText: "Username"),
                       onChanged: (val) {
                         username = val;
@@ -92,6 +101,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
+                      validator: (val) => (val == null || val.isEmpty)
+                          ? "Input your email"
+                          : null,
                       decoration: InputDecoration(hintText: "Email"),
                       onChanged: (val) {
                         email = val;
@@ -110,6 +122,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
+                      validator: (val) => (val == null || val.length < 6)
+                          ? "Password must be 6 char or more"
+                          : null,
                       obscureText: true,
                       decoration: InputDecoration(hintText: "Password"),
                       onChanged: (val) {
@@ -129,6 +144,9 @@ class _RegisterFormState extends State<RegisterForm> {
                   SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
+                      validator: (val) => (val == null || val.length < 6)
+                          ? "Password must be 6 char or more"
+                          : null,
                       obscureText: true,
                       decoration: InputDecoration(hintText: "Confirm Password"),
                       onChanged: (val) {
@@ -144,11 +162,13 @@ class _RegisterFormState extends State<RegisterForm> {
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      print("Name: " + name);
-                      print("Username: " + username);
-                      print("Email: " + email);
-                      print("Password: " + password);
-                      print("Confirm Password: " + confirmPassword);
+                      if (_keyForm.currentState!.validate()) {
+                        print("Name: " + name);
+                        print("Username: " + username);
+                        print("Email: " + email);
+                        print("Password: " + password);
+                        print("Confirm Password: " + confirmPassword);
+                      }
                     },
                     child: Text("Submit"),
                   )
