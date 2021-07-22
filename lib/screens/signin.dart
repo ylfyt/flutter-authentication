@@ -38,6 +38,7 @@ class _LoginFormState extends State<LoginForm> {
   String password = '';
   bool isRememberMe = false;
 
+  final _keyForm = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,6 +47,7 @@ class _LoginFormState extends State<LoginForm> {
           height: 40,
         ),
         Form(
+          key: _keyForm,
           child: Column(
             children: <Widget>[
               Row(
@@ -59,6 +61,9 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   Expanded(
                     child: TextFormField(
+                      validator: (val) => (val == null || val.isEmpty)
+                          ? "Input with email or username"
+                          : null,
                       decoration:
                           InputDecoration(hintText: "Email or Username"),
                       onChanged: (val) {
@@ -112,8 +117,10 @@ class _LoginFormState extends State<LoginForm> {
                   ),
                   ElevatedButton.icon(
                     onPressed: () {
-                      print("Username: " + username);
-                      print("Password: " + password);
+                      if (_keyForm.currentState!.validate()) {
+                        print("Username: " + username);
+                        print("Password: " + password);
+                      }
                     },
                     icon: Icon(Icons.send),
                     label: Text("Sign In"),
